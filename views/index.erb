@@ -16,19 +16,33 @@
 <section class="center-vertical">
 	<h1>最新の投稿</h1>
 
-	<div class="post center-vertical">
-		<img src="" width="125" height="125">
-		<p>artist: 〇〇</p>
-		<p>コメント: 〇〇</p>
-		<p>投稿者: 〇〇<br>
-			<a href="#">フォローする</a>
-			<a href="#">">フォロー解除</a><br>
-		</p>
-		<p>いいねしたユーザー<br>
-			<img src="" alt="user_image" width="40" height="40">
-		</p>
-		<a href="#">いいねする</a>
-	</div>
+	<% unless @posts.empty? %>
+		<% @posts.each do |post| %>
+			<div class="post center-vertical">
+				<img src="<%= post.icon %>" width="125" height="125">
+				<p>アーティスト: <%= post.artist %></p>
+				<p>コメント: <%= post.comment %></p>
+				<p>投稿者: <%= post.user.name %><br>
+						<% if false %>
+					<a href="#">フォローする</a>
+					<a href="#">フォロー解除</a><br>
+					<% end %>
+				</p>
+				<p>イイねしたユーザー<br>
+					<% unless post.likes.empty? %>
+						<% post.likes.each do |like| %>
+							<img class="user-icon" src="<%= like.user.icon %>">
+						<% end %>
+					<% end %>
+				</p>
+				<% if Likes.find_by(user_id: session[:user], post_id: post.id).nil? %>
+					<a href="/favorite/<%= post.id %>">いいねする</a>
+				<% else %>
+					<a href="/favorite/<%= post.id %>">いいねを外す</a>
+				<% end %>
+			</div>
+		<% end %>
+	<% end %>
 
 	<%# TODO: ここで分岐 %>
 	<p>投稿がありません</p>

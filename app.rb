@@ -9,6 +9,7 @@ require 'net/http'
 enable :sessions
 
 get '/' do
+    @posts = Post.all
     erb :index
 end
 
@@ -26,9 +27,17 @@ get '/signup' do
 end
 
 post '/signup' do
+    if params[:file]
+        image_url = "upload/#{params[:file][:filename]}"
+        File.open("./public/#{image_url}", 'wb') do |f|
+          f.write(params[:file][:tempfile].read)
+        end
+    end
+
     user = User.create(
         name: params[:name],
-        password: params[:password]
+        password: params[:password],
+        icon: image_url
     )
     if user.persisted?
         session[:user] = user.id
