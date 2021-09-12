@@ -10,7 +10,7 @@
 	<a href="/">MUSIC SNS!!!</a>
 	<% if session[:user] %>
 		<a href="/profile">
-			<img class="icon" src="<%= User.find(session[:user]).icon || User.find(1).icon %>">
+			<img class="icon" src="<%= User.find(session[:user]).icon || User.find(1).icon %>" width="45" height="45">
 		</a>
 		<a href="/search">Search</a>
 		<a href="/logout">Logout</a>
