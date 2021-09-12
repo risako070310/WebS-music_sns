@@ -19,7 +19,7 @@
 	<% unless @posts.empty? %>
 		<% @posts.each do |post| %>
 			<div class="post center-vertical">
-				<img src="<%= post.icon %>" width="125" height="125">
+				<img src="<%= post.jacket %>" width="125" height="125">
 				<p>アーティスト: <%= post.artist %></p>
 				<p>コメント: <%= post.comment %></p>
 				<p>投稿者: <%= post.user.name %><br>
