@@ -71,13 +71,13 @@ end
 
 post '/post' do
     Post.create(
-        user_id: session[:user_id],
+        user_id: session[:user],
         jacket: params[:jacket],
         artist: params[:artist],
         album: params[:album],
         song: params[:song],
         sample: params[:sample],
-        comment: params[:comment],
+        comment: params[:comment]
     )
     redirect '/profile'
 end
@@ -88,4 +88,31 @@ get '/profile' do
     end
     @user = User.find(session[:user])
     erb :home
+end
+
+get '/delete/:id' do
+    post_ = Post.find(params[:id])
+    unless session[:user]  == post_.user.id
+        # マイページに遷移．
+        redirect '/profile'
+    end
+    post_.destroy
+    redirect '/profile'
+end
+
+get '/like/:post_id' do
+    unless session[:user]
+        redirect '/signup'
+    end
+    
+    like = Like.find_by(user_id: session[:user], post_id: params[:post_id])
+    if like.nil?
+        Like.create(
+            user_id: session[:user],
+            post_id: params[:post_id]
+        )
+    else
+        like.destroy
+    end
+    redirect '/'
 end

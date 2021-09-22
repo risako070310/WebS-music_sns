@@ -1,11 +1,42 @@
 <section class="center-vertical">
-	<h1>〇〇の投稿</h1>
-	<p>投稿がありません</p>
+	<h1><%= @user.name %>の投稿</h1>
+	<% unless @user.posts.empty? %>
+		<% @user.posts.each do |post_| %>
+			<div class="center-hrizontal">
+				<div class="post center-vertical">
+					<img src="<%= post_.jacket %>">
+					<p><%= post_.artist %></p>
+					<p><%= post_.album %></p>
+					<p><%= post_.song %></p>
+					<a href="<%= post_.sample %>">サンプル</a>
+					<p>コメント：<%= post_.comment %></p>
+					<a href="/delete/<%= post_.id %>">削除</a>
+				</div>
+			</div>
+		<% end %>
+	<% else %>
+		<p>投稿がありません</p>
+	<% end %>
 </section>
 
 <section class="center-vertical">
-	<h1>〇〇のイイねした投稿</h1>
-	<p>イイねがありません</p>
+	<h1><%= @user.name %>のイイねした投稿</h1>
+	<% unless @user.likes.empty? %>
+		<% @user.likes.each do |like| %>
+			<div class="center-hrizontal">
+				<div class="post center-vertical">
+					<img src="<%= like.post.jacket %>">
+					<p><%= like.post.artist %></p>
+					<p><%= like.post.album %></p>
+					<p><%= like.post.song %></p>
+					<a href="<%= like.post.sample %>">サンプル</a>
+					<p>コメント：<%= like.post.comment %></p>
+				</div>
+			</div>
+		<% end %>
+	<% else %>
+		<p>イイねがありません</p>
+	<% end %>
 </section>
 
 <section class="center-vertical">

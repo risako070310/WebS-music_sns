@@ -17,33 +17,32 @@
 	<h1>最新の投稿</h1>
 
 	<% unless @posts.empty? %>
-		<% @posts.each do |post| %>
+		<% @posts.each do |post_| %>
 			<div class="post center-vertical">
-				<img src="<%= post.jacket %>" width="125" height="125">
-				<p>アーティスト: <%= post.artist %></p>
-				<p>コメント: <%= post.comment %></p>
-				<p>投稿者: <%= post.user.name %><br>
-						<% if false %>
-					<a href="#">フォローする</a>
-					<a href="#">フォロー解除</a><br>
+				<img src="<%= post_.jacket %>" width="180" height="180">
+				<p>アーティスト: <%= post_.artist %></p>
+				<p>コメント: <%= post_.comment %></p>
+				<p>投稿者: <%= User.find(post_.user_id).name %><br>
+					<% if false %>
+						<a href="#">フォローする</a>
+						<a href="#">フォロー解除</a><br>
 					<% end %>
 				</p>
 				<p>イイねしたユーザー<br>
-					<% unless post.likes.empty? %>
-						<% post.likes.each do |like| %>
-							<img class="user-icon" src="<%= like.user.icon %>">
+					<% unless post_.likes.empty? %>
+						<% post_.likes.each do |like| %>
+							<img class="icon" src="<%= like.user.icon %>" width="30" height="30" style="border-radius: 30px;">
 						<% end %>
 					<% end %>
 				</p>
-				<% if Likes.find_by(user_id: session[:user], post_id: post.id).nil? %>
-					<a href="/favorite/<%= post.id %>">いいねする</a>
+				<% if Like.find_by(user_id: session[:user_id], post_id: post_.id).nil? %>
+					<a href="/like/<%= post_.id %>">イイねする</a>
 				<% else %>
-					<a href="/favorite/<%= post.id %>">いいねを外す</a>
+					<a href="/like/<%= post_.id %>">イイねを外す</a>
 				<% end %>
 			</div>
 		<% end %>
+	<% else %>
+		<p>投稿がありません</p>
 	<% end %>
-
-	<%# TODO: ここで分岐 %>
-	<p>投稿がありません</p>
 </section>
